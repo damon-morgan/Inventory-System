@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <div id="Header">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="Header">
         <h2>Please Register Below</h2>
-        </div>
-        <div id="RegisterForm">
-            <form action="register.php" method="post">
+    </div>
+    <div id="RegisterForm">
+        <form action="register.php" method="post">
             <label>Username:</label><br>
             <input type="text" name="username"><br>
             <label>Password:</label><br>
             <input type="text" name="password"><br>
             <input type="submit" value="Login">
-            </form>
-        </div>
-    </body>
+        </form>
+    </div>
+</body>
+
 </html>
 
 <?php
