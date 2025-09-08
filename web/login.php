@@ -24,24 +24,24 @@
 <?php
 
     session_start();
-    require 'db.php';
+    require 'db.php'; // PDO Connection
 
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    $stmt = $pdo->prepare("SELECT password FROM users WHERE username = ?");
-    $stmt->execute([$username]);
+    $stmt = $pdo->prepare("SELECT password FROM users WHERE username = ?"); // Prepare to search user table
+    $stmt->execute([$username]); // Execute SQL query above
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION["auth"] = true;
         $_SESSION["user"] = $_POST["username"];
-        header("Location: index.php");
+        header("Location: index.php"); // Reload the page
         exit();
     } 
     else {
         $_SESSION["auth"] = false;
-        echo"Incorrect username or password";
+        echo"Incorrect username or password"; // Provide user with error
     }
     
 ?>

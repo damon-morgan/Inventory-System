@@ -1,9 +1,12 @@
 <?php
+
+// Database Information
 $host = 'localhost';
 $dbname = 'myapp';
 $dbuser = 'root';
-$dbpass = ''; // your MySQL password
+$dbpass = ''; 
 
+// Database Connection
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $dbuser, $dbpass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

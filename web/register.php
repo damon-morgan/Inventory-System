@@ -22,7 +22,8 @@
 </html>
 
 <?php
-require 'db.php'; // your PDO connection to database
+session_start();
+require 'db.php'; // PDO connection to database
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST["username"]);
