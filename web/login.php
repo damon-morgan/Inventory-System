@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login to IMS</title>
     <style>
         body {
             font-family: 'Verdana', sans-serif;
@@ -83,6 +83,8 @@
                 <label>Password:</label><br>
                 <input type="text" name="password"><br>
                 <input type="submit" value="Login">
+                <br></br>
+                <a href="register.php">Create an Account</a>
             </form>
         </div>
     </div>
@@ -95,21 +97,33 @@
 session_start();
 require 'db.php'; // PDO Connection
 
-$username = $_POST["username"];
-$password = $_POST["password"];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = trim($_POST["username"]);
+    $password = $_POST["password"];
 
-$stmt = $pdo->prepare("SELECT password FROM users WHERE username = ?"); // Prepare to search user table
-$stmt->execute([$username]); // Execute SQL query above
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Validate input
+    if (empty($username) || empty($password)) {
+        echo "Both fields are required.";
+        exit();
+    }
 
-if ($user && password_verify($password, $user['password'])) {
-    $_SESSION["auth"] = true;
-    $_SESSION["user"] = $_POST["username"];
-    header("Location: index.php"); // Reload the page
-    exit();
-} else {
-    $_SESSION["auth"] = false;
-    echo "Incorrect username or password"; // Provide user with error
+    // Look up user
+    $stmt = $pdo->prepare("SELECT id, password FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($password, $user['password'])) {
+        // Prevent session fixation
+        session_regenerate_id(true);
+
+        $_SESSION["auth"] = true;
+        $_SESSION["user"] = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+        header("Location: index.php");
+        exit();
+    } else {
+        $_SESSION["auth"] = false;
+        echo "Incorrect username or password.";
+    }
 }
 
 ?>
